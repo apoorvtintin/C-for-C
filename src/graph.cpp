@@ -2,6 +2,7 @@
 #include <vector>
 #include <list>
 #include <iterator>
+#include <fstream>
 
 using namespace std;
 
@@ -61,8 +62,8 @@ ostream& operator<<(ostream& out, const node& vertice) {
 /***
  *  Methods for Class graph
 **/
-graph::graph(float density, int num_nodes)
-	:density(density),num_nodes(num_nodes) 
+graph::graph(int num_nodes, float density)
+	:num_nodes(num_nodes), density(density)
 {
 	cout<<"called?\n"<<this->density<<'\t'<<this->num_nodes;
 	node vertice(this->num_nodes);
@@ -71,6 +72,41 @@ graph::graph(float density, int num_nodes)
 		nodes.push_back(vertice);
 	}
 }
+
+graph::graph(string path)
+{
+	//cout<<"called?\n"<<this->density<<'\t'<<this->num_nodes;
+	cout<<"came here";
+	ifstream graph_file(path.c_str());
+	if(!graph_file.good()) {
+		cout<<"graph file open failed\n";
+	}
+	istream_iterator<int> iter(graph_file), eos;
+	this->num_nodes = *iter;
+	cout<<"num_nodes:"<<num_nodes<<'\n';
+	if(num_nodes < 1) {
+		return;
+	}
+	node vertice(this->num_nodes);
+	iter++;
+	int from, to, value;
+	for(int i = 0; i < this->num_nodes; i++) {
+		vertice.id = i;
+		nodes.push_back(vertice);
+
+	}
+	while(iter != eos) {
+		from = *iter++;
+		to = *iter++;
+		value = *iter++;
+		nodes.at(from).set_edge(to, value);
+	}
+}
+
+int graph::get_num_nodes() {
+	return num_nodes;
+}
+
 int graph::set_random_graph() {
 	srand(time(0));
 	for(uint i = 0; i < num_nodes; i++) {
