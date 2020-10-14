@@ -12,7 +12,7 @@ int main() {
 
     cout<<"enter density (float) and num_nodes (int)\n";
     cin>>density>>num_nodes;
-    ShortestPath s(density, num_nodes);
+    ShortestPath s(num_nodes, density);
 
     s.setgraph();
     s.vertices();

@@ -29,10 +29,11 @@ class node {
 class graph {
 	private:
         vector<node> nodes;
+		int num_nodes;
         double density;
-        int num_nodes;
     public:
-        graph(float density, int num_nodes);
+        graph( int num_nodes, float density = 0);
+		graph(string path);
         int set_random_graph();
         int V();
         int E();
@@ -45,6 +46,7 @@ class graph {
         void set_node_value(int x, int val);
         void set_edge_value(int x, int y, int value);
         int get_edge_value(int x, int y);
+		int get_num_nodes();
         friend ostream& operator<<(ostream& out, const graph& g);
 };
 
